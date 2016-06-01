@@ -2,7 +2,7 @@ var outer = function(){
   var name = 'Tyler';
   return function(){
     return 'The original name was ' + name;
-  }
+  };
 };
 
 
@@ -12,12 +12,13 @@ var outer = function(){
 // Invoke outer saving the return value into another variable called 'inner'.
 
 // Code Here
+var inner = outer();
 
 
 //Once you do that, invoke inner.
 
   //Code Here
-
+inner();
 
 
 //////////////////PROBLEM 2////////////////////
@@ -36,7 +37,10 @@ var callFriend = function(){
 // Create a makeCall function that when invoked logs  'Calling Jake at 435-215-9248' in your console.
 
   //Code Here
-
+function makeCall() {
+  var callF = callFriend();
+  return callF('435-215-9248');
+}
 
 
 
@@ -52,13 +56,18 @@ var callFriend = function(){
 */
 
 //Code Here
-
+function makeCounter() {
+  var x = 0;
+  return function() {
+    return x += 1;
+  };
+}
 //Uncomment this once you make your function
-//   var count = makeCounter();
-//   count(); // 1
-//   count(); // 2
-//   count(); // 3
-//   count(); // 4
+  var count = makeCounter();
+  count(); // 1
+  count(); // 2
+  count(); // 3
+  count(); // 4
 
 
 
@@ -72,12 +81,15 @@ var callFriend = function(){
 // You will need to use the module pattern to achieve this.
 
 function counterFactory(value) {
-
   // Code here.
-
-
   return {
-  }
+    inc: function() {
+      return value += 1;
+    },
+    dec: function() {
+      return value -= 1;
+    }
+  };
 }
 
 
@@ -96,11 +108,13 @@ counter = counterFactory(10);
     var welcomeText = 'You\'re doing awesome, keep it up ';
 
     // code message function here.
-
+    function message() {
+      return welcomeText + firstname + " " + lastname + ".";
+    }
 
     //Uncommment this to return the value of your invoked message function
 
-    //return message()
+    return message();
   }
 
   motivation('Billy', 'Bob'); // 'Your doing awesome keep it up Billy Bob
@@ -127,12 +141,13 @@ counter = counterFactory(10);
 
     return {
       // Code here.
+      publicMethod: privateMethod
     };
 
   })();
 
 //Uncomment this after you create your public method
-//   module.publicMethod();
+   module.publicMethod();
 
 
 
@@ -143,13 +158,11 @@ counter = counterFactory(10);
 
 function timeOutCounter() {
   for (var i = 0; i <= 5; i++) {
-    setTimeout(function() {
-      console.log(i);
-    }, i * 1000)
+    setTimeout(newScope.bind(timeOutCounter, i), i * 1000);
   }
 
   function newScope(i) {
-    console.log(i)
+    console.log(i);
   }
 }
 timeOutCounter();
@@ -175,3 +188,10 @@ var funcArray = [];
 
   *Hint: Don't let this fool you. Break down what's really happening here.
 */
+for(var i = 0; i < 6; i++) {
+  funcArray[i] = x.bind(window, i);
+}
+
+function x(i) {
+  return i;
+}
